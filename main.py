@@ -1,4 +1,5 @@
 import sqlite3
+import re
 
 conn = sqlite3.connect('contact.db')
 cur = conn.cursor()
@@ -17,17 +18,30 @@ def login(username, password):
         return True
     else:
         return False
-    
+
+def verify_email():
+    pattern = "^[a-z A-Z 0-9 . _]+@[a-z A-Z]+\.[a-z A-Z]{2,3}$"
+
+    email = input("Enter the email of the person: ")
+
+    return re.match(pattern, email)
 
 def add_contact():
     name = input("Enter the name of the person: ")
     address = input("Enter the location of the person: ")
     phone_number = input("Enter the phone number: ")
-    email = input("Enter the email of the person: ")
 
-    cur.execute("INSERT INTO contacts(name, address, phone_number, email) VALUES (?, ?, ?, ?)", (name, address, phone_number, email))
+    if verify_email():
+
+        cur.execute("INSERT INTO contacts(name, address, phone_number, email) VALUES (?, ?, ?, ?)", (name, address, phone_number, verify_email()))
+
+        conn.commit()
     
-    conn.commit()
+    else:
+        print("Invalid email. Data not added")
+
+
+    
 
 def main_logic():
 

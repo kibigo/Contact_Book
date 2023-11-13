@@ -40,8 +40,21 @@ def add_contact():
     else:
         print("Invalid email. Data not added")
 
+def view_contact():
+    cur.execute("SELECT * FROM contacts")
+    contacts = cur.fetchall()
+    for contact in contacts:
+        print(contact)
 
+
+def delete_contact():
     
+    contact_id = input("Enter the id of the contact to delete: ")
+
+    cur.execute("DELETE FROM contacts WHERE id = ?", contact_id)
+
+    conn.commit()
+
 
 def main_logic():
 
@@ -71,6 +84,12 @@ def main_logic():
 
                 if contact_choice == 1:
                     add_contact()
+
+                elif contact_choice == 2:
+                    view_contact()
+
+                elif contact_choice == 3:
+                    delete_contact()
 
         elif choice == 2:
             create_account()

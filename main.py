@@ -55,6 +55,14 @@ def delete_contact():
 
     conn.commit()
 
+def update_contact():
+    missing = input("Enter the column to update: ")
+    new = input("Enter the new data: ")
+    name = input("Enter the name of the contact to update: ")
+
+    cur.execute(f"UPDATE contacts SET {missing} = ? WHERE name = ?",(new, name))
+
+    conn.commit()
 
 def main_logic():
 
@@ -79,6 +87,7 @@ def main_logic():
                 print("1. Add contact")
                 print("2. View contact list")
                 print("3. Delete contact")
+                print("4. Update contact")
 
                 contact_choice = int(input("Choose an option \n"))
 
@@ -90,6 +99,9 @@ def main_logic():
 
                 elif contact_choice == 3:
                     delete_contact()
+
+                elif contact_choice == 4:
+                    update_contact()
 
         elif choice == 2:
             create_account()

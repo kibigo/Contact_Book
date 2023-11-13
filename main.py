@@ -19,6 +19,16 @@ def login(username, password):
         return False
     
 
+def add_contact():
+    name = input("Enter the name of the person: ")
+    address = input("Enter the location of the person: ")
+    phone_number = input("Enter the phone number: ")
+    email = input("Enter the email of the person: ")
+
+    cur.execute("INSERT INTO contacts(name, address, phone_number, email) VALUES (?, ?, ?, ?)", (name, address, phone_number, email))
+    
+    conn.commit()
+
 def main_logic():
 
     while True:
@@ -36,7 +46,17 @@ def main_logic():
 
             login(username, password)
 
-            print("Successfully logged in...")
+            while True:
+
+                print("Successfully logged in...")
+                print("1. Add contact")
+                print("2. View contact list")
+                print("3. Delete contact")
+
+                contact_choice = int(input("Choose an option \n"))
+
+                if contact_choice == 1:
+                    add_contact()
 
         elif choice == 2:
             create_account()
